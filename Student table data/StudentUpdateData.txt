@@ -1,0 +1,63 @@
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+public class Student2 {
+
+	public static void main(String[] args) {
+		String url="jdbc:mysql://localhost:3306/java";
+		String username="root";
+		String password="root";
+		Connection connection=null;
+		
+		try {
+			//step 1:load/register the driver
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			
+			//2:establish connection 
+			connection=	DriverManager.getConnection(url, username, password);
+			
+			//3:establish connection
+			Statement statement= connection.createStatement();
+			
+			//4:execute the statement
+			int a= statement.executeUpdate("UPDATE student SET name='viru',email='viru@gmail.com' WHERE id=1");
+			if(a>0) {
+				System.out.println("Data Upadated");
+			}
+			else {
+				System.out.println("Data Not Updated");
+			}
+			
+		} catch (ClassNotFoundException e) {
+		
+			e.printStackTrace();
+		} catch (SQLException e) {
+		
+			e.printStackTrace();
+		}
+		finally {
+			try {
+				//5: close connection
+				connection.close();
+				System.out.println("All Good");
+			} catch (SQLException e) {
+				
+				e.printStackTrace();
+			}
+		}
+	}
+}
+/*
+Output=
+Data Upadated
+All Good
+
+//Mysql table data updated id=1 
+id  name    email
+1	viru	viru@gmail.com
+2	Rohit	rohit@gmail.com
+3	Sachin	sachin@gmail.com
+5	Tejas	Tejas@gmail.com
+*/		

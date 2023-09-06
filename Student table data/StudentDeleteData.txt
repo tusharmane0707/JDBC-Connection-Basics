@@ -1,0 +1,57 @@
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+public class Student1 {
+
+	public static void main(String[] args) {
+		String url="jdbc:mysql://localhost:3306/java";
+		String username="root";
+		String password="root";
+		Connection connection=null;	// globally declare
+		
+		try {
+			//step 1:load/register the driver
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			
+			//2:establish connection 
+			connection=DriverManager.getConnection(url, username, password);
+			
+			//3:establish connection
+			Statement statement=connection.createStatement();
+			
+			//4:execute the statement
+			statement.execute("DELETE FROM student WHERE id=4");// we can write query directly
+				
+		} catch (ClassNotFoundException e) {
+			
+			e.printStackTrace();
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+		}
+		finally {	// because we always want connection close whenever error occur or not
+			try {
+				//5: close connection
+				connection.close();
+				System.out.println("All Good");
+			} catch (SQLException e) {
+				
+				e.printStackTrace();
+			}
+		}
+
+	}
+}
+/*
+Output=
+All Good
+
+//Mysql table data delete id=4
+id  name    email
+1	PRATIK	pratik@mail.com
+2	Rohit	rohit@gmail.com
+3	Sachin	sachin@gmail.com
+5	Tejas	Tejas@gmail.com
+*/	

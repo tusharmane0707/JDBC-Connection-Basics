@@ -1,0 +1,61 @@
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+public class Employee1 {
+public static void main(String[] args) {
+	String url="jdbc:mysql://localhost:3306/java";
+	String username="root";
+	String password="root";
+	
+	Connection connection=null;
+	
+	try {
+		//step 1:load/register the driver
+		Class.forName("com.mysql.cj.jdbc.Driver");
+		
+		//2:establish connection 
+		connection=DriverManager.getConnection(url, username, password);
+		
+		//3:establish connection
+		Statement statement=connection.createStatement();
+		
+		//statement.execute("INSERT INTO employee VALUES(6,'Jeevan',jeevan@mail.com')");
+		// first insert data then delete data whichever we want to delete
+		
+		//4:execute the statement
+		statement.execute("DELETE FROM employee WHERE id=2");
+		
+	} catch (ClassNotFoundException e) {
+		
+		e.printStackTrace();
+	} catch (SQLException e) {
+	
+		e.printStackTrace();
+	}
+	finally {
+		try {
+			//5: close connection
+			connection.close();
+			System.out.println("All Good");
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+			System.out.println("All Not Good");
+		}
+	}
+}
+}
+/*
+Output=
+All Good
+
+//Mysql employee table data delete id=2 
+ 
+id  name    email
+1	ROHIT	rohit@mail.com
+3	Pratik	pratik@mail.com
+4	Saurabh	Saurabh@mail.com
+5	Tejas	tejas@mail.com
+*/		
